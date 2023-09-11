@@ -1,3 +1,43 @@
+/*
+input(name)
+input(age)
+input(genre)
+input(money)
+while continue == "y"
+    switch genre
+        case "adventure":
+            if age > 12
+                if money > 220
+                    output(Treasure Island)
+                    askIfContinue
+                else
+                    output(No Books)
+                    askIfContinue
+            else
+                if money > 249
+                    output(Dog Patron)
+                    askIfContinue
+                else
+                    output(Alice in the Wonderland)
+                    askIfContinue
+        case "science fiction":
+            if age > 13
+                if money > 440
+                    output(Dune)
+                    askIfContinue
+                else
+                    output(Foundation)
+                    askIfContinue
+            else
+                if money > 199
+                    output(20,000 leauges under water)
+                    askIfContinue
+                else
+                    output(No Books)
+                    askIfContinue
+ */
+
+
 package Part2;
 
 import java.util.Scanner;
@@ -9,29 +49,15 @@ public class Part2 {
     public static void main(String[] args) {
 
         String shouldContinue = "Y";
-        // name
-        System.out.println("Hi! This is a book recommendation program. What is your name?");
-        String name = keyboard.nextLine();
-        int whichIteration = 0;
+        boolean isFirstIteration = true;
+
+        String name = askName();
+
         do {
-            // age
-            if (whichIteration == 0)
-                System.out.println("Nice to meet you, " + name + ".\nCould you please tell me your age?");
-            else{
-                System.out.println("Nice to meet you again, " + name + ".\nCould you remind me your age, please?");
-            }
-            byte age = keyboard.nextByte();
-            keyboard.nextLine();
 
-            // book genre
-            System.out.println("Great! And book of which genre would you like to read?" +
-                    "\n(unfortunately, adventure/science fiction are the only ones available right now)");
-            String genre = keyboard.nextLine();
-
-            // money
-            System.out.println("And how much money do you wish to spend on a book?");
-            long money = keyboard.nextLong();
-            keyboard.nextLine();
+            byte age = askAge(isFirstIteration, name);
+            String genre = askGenre();
+            long money = askMoney();
 
             // choosing a book based on inputs
             System.out.println("Well done. The program will soon find a best-fitting book for you.");
@@ -52,7 +78,7 @@ public class Part2 {
                             shouldContinue = getRecommendation("Alice's Adventures in the Wonderland",
                                     "https://book-ye.com.ua/catalog/dytyacha-proza/alisa-v-krayini-dyv-shkilna-seriya/");
                     }
-                    whichIteration++;
+                    isFirstIteration = false;
                     break;
                 case "science fiction":
                     if (age > 13){
@@ -67,11 +93,11 @@ public class Part2 {
                         else
                             shouldContinue = alertNoBooks();
                     }
-                    whichIteration++;
+                    isFirstIteration = false;
                     break;
                 default:
                     shouldContinue = alertNoBooks();
-                    whichIteration++;
+                    isFirstIteration = false;
             }
         }while (shouldContinue.equals("Y") || shouldContinue.equals("y"));
     }
@@ -86,5 +112,33 @@ public class Part2 {
         System.out.println("Sorry, we could not find any books for you.\nHowever, you can try changing one of your " +
                 "input parameters and maybe you will find something else! Continue? (Y/N)");
         return keyboard.nextLine();
+    }
+
+    public static long askMoney(){
+        System.out.println("And how much money do you wish to spend on a book?");
+        long money = keyboard.nextLong();
+        keyboard.nextLine();
+        return money;
+    }
+
+    public static String askGenre(){
+        System.out.println("Great! And book of which genre would you like to read?" +
+                "\n(unfortunately, adventure/science fiction are the only ones available right now)");
+        return keyboard.nextLine();
+    }
+
+    public static String askName(){
+        System.out.println("Hi! This is a book recommendation program. What is your name?");
+        return keyboard.nextLine();
+    }
+
+    public static byte askAge(boolean isFirstIteration, String name){
+        if (isFirstIteration)
+            System.out.println("Nice to meet you, " + name + ".\nCould you please tell me your age?");
+        else
+            System.out.println("Nice to meet you again, " + name + ".\nCould you remind me your age, please?");
+        byte age = keyboard.nextByte();
+        keyboard.nextLine();
+        return age;
     }
 }

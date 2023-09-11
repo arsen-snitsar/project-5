@@ -1,9 +1,9 @@
-package Part1.Task1;
+package Part1;
 import java.util.Scanner;
 
 // Demonstrate use of methods without return value (0.2).
 
-public class Demo2 {
+public class Demo2Void {
 
     public static Scanner keyboard = new Scanner(System.in);
 
